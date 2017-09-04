@@ -15,26 +15,35 @@ var name = "";
 var destination = "";
 var firstTrain = "";
 var frequency = 0;
+var nextArrival = "";
+var minutesAway = 0;
 
 $("#submitbtn").on("click", function(){
   event.preventDefault();
   name = $("#nameInput").val().trim();
-  destination = $("#destination").val().trim();
+  destination = $("#destinationInput").val().trim();
   firstTrain = $("#firstTrainInput").val().trim();
-  frequency = parseInt($("#frequency").val().trim());
+  frequency = parseInt($("#frequencyInput").val().trim());
 
   database.ref().push({
     name: name,
     destination: destination,
     firstTrain: firstTrain,
-    frequency: frequency,
+    frequency: frequency
   });
 });
 
+nextArrival = 0;
+//firebase.database.ServerValue.TIMESTAMP
+//var workingDate = Math.abs(childSnapshot.val().dateAdded - new Date(childSnapshot.val().startDate).getTime());
+//monthsWorked = Math.floor(workingDate / 1000 / 60 / 60 / 24 / 30);
+//totalBilled = monthsWorked * parseInt(childSnapshot.val().monthlyRate);
+
+minutesAway = 0;
 
 database.ref().on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
-  $("#tableBody").append("<tr class='column-row'><td class='tableName'>" + childSnapshot.val().name + "</td><td class='tableDestination'>" + childSnapshot.val().destination + "</td><td class='tablefirstTrain'>" + childSnapshot.val().firstTrain + "</td><td class='tablefirstTrain'>" + firstTrain + "</td><td class='tableFrequency'>" + "$" + childSnapshot.val().frequency + "</td><td class='tableNextArrival'>" + nextArrival + "</td><td class='tableMinutesAway'>" + minutesAway + "</td></tr>");
+  $("#tableBody").append("<tr class='column-row'><td class='tableName'>" + childSnapshot.val().name + "</td><td class='tableDestination'>" + childSnapshot.val().destination + "</td><td class='tableFrequency'>" + childSnapshot.val().frequency + "</td><td class='tablenextArrival'>" + nextArrival + "</td><td class='tableMinutesAway'>" + childSnapshot.val().minutesAway + "</td></tr>");
 
 }, function(errorObject) {
   console.log("The read failed: " + errorObject.code);
