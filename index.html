@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Timesheet</title>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/solar/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+		  <h1 class="display-3">Anytime is Train Time</h1>
+		  <p class="lead">Choo Choo. Chee Chee.</p>
+		</div>
+		<div class="card">
+		  <div class="card-header">
+		    Current Train Schedule
+		  </div>
+			<table class="table">
+			  <thead>
+			    <tr id="tableHeaders">
+			      <th>Train Name</th>
+			      <th>Destination</th>
+			      <th>Frequency (min)</th>
+			      <th>Next Arrival</th>
+			      <th>Minutes Away</th>
+			    </tr>
+			  </thead>
+			  <tbody id="tableBody">
+			  </tbody>
+			</table>
+		</div>
+		<div class="card">
+		  <div class="card-header">
+		    Add Train
+		  </div>
+		  <div class="card-body">
+				<form>
+				  <div class="form-group">
+				    <label class="text-left" for="nameInput">Train Name</label>
+				    <input type="name" class="form-control" id="nameInput" placeholder="">
+				  </div>
+				  <div class="form-group">
+				    <label class="text-left" for="Destination">Destination</label>
+				    <input type="role" class="form-control" id="destinationInput" placeholder="">
+				  </div>
+				  <div class="form-group">
+				    <label class="text-left" for="firstTrainTime">First Train Time</label>
+				    <input type="time" class="form-control" id="firstTrainInput">
+				  </div>
+				  <div class="form-group">
+				    <label class="text-left" for="frequency">Frequency</label>
+				    <input type="number" class="form-control" id="frequencyInput" placeholder="">
+				  </div>
+				  <button type="submit" class="btn btn-info" id="submitbtn">Submit</button>
+				</form>
+		  </div>
+		</div>
+	</div>
+	<script type="text/javascript" src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
+	<script type="text/javascript" src="logic.js"></script>
+</body>
+</html>

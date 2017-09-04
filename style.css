@@ -1,0 +1,19 @@
+.container {
+	text-align: center;
+}
+
+.card-header {
+	text-align: left;
+}
+
+form {
+	text-align: left;
+}
+
+.table {
+	text-align: left;
+}
+
+.card {
+	margin-bottom: 30px;
+}
