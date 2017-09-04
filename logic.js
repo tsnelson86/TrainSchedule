@@ -11,12 +11,17 @@ firebase.initializeApp(config);
 
 database = firebase.database();
 
-var name = "";
-var destination = "";
-var firstTrain = "";
-var frequency = 0;
-var nextArrival = "";
-var minutesAway = 0;
+var name;
+var destination;
+var firstTrain ;
+var frequency;
+var currentTime;
+var diffTime;
+var nextArrival;
+var minutesAway;
+var remainder;
+var nextTrain;
+var firstTrainConverted;
 
 $("#submitbtn").on("click", function(){
   event.preventDefault();
@@ -33,17 +38,30 @@ $("#submitbtn").on("click", function(){
   });
 });
 
-nextArrival = 0;
-//firebase.database.ServerValue.TIMESTAMP
-//var workingDate = Math.abs(childSnapshot.val().dateAdded - new Date(childSnapshot.val().startDate).getTime());
-//monthsWorked = Math.floor(workingDate / 1000 / 60 / 60 / 24 / 30);
-//totalBilled = monthsWorked * parseInt(childSnapshot.val().monthlyRate);
-
-minutesAway = 0;
-
 database.ref().on("child_added", function(childSnapshot) {
-  console.log(childSnapshot.val());
-  $("#tableBody").append("<tr class='column-row'><td class='tableName'>" + childSnapshot.val().name + "</td><td class='tableDestination'>" + childSnapshot.val().destination + "</td><td class='tableFrequency'>" + childSnapshot.val().frequency + "</td><td class='tablenextArrival'>" + nextArrival + "</td><td class='tableMinutesAway'>" + childSnapshot.val().minutesAway + "</td></tr>");
+
+  // Current Time
+  currentTime = moment().format("hh:mm");
+
+  // First Time (pushed back 1 year to make sure it comes before current time)
+  firstTrainConverted = moment(childSnapshot.val().firstTrain, "hh:mm").subtract(1, "years");
+  console.log("First Train Converted: " + firstTrainConverted);
+  
+  // Difference between the times
+  diffTime = moment().diff(moment(firstTrainConverted), "minutes");
+  console.log("Difference in Time: " + diffTime);
+  
+  // Time apart (remainder)
+  remainder = diffTime % childSnapshot.val().frequency;
+  console.log("Reminder: " + remainder);
+  
+  // Minute Until Train
+  minutesAway = childSnapshot.val().frequency - remainder;
+  console.log("Minutes Until Train: " + minutesAway);
+  
+  // Next Train
+  nextArrival = moment().add(minutesAway, "minutes");
+  $("#tableBody").append("<tr class='column-row'><td class='tableName'>" + childSnapshot.val().name + "</td><td class='tableDestination'>" + childSnapshot.val().destination + "</td><td class='tableFrequency'>" + childSnapshot.val().frequency + "</td><td class='tablenextArrival'>" + moment(nextArrival).format("hh:mm") + "</td><td class='tableMinutesAway'>" + minutesAway + "</td></tr>");
 
 }, function(errorObject) {
   console.log("The read failed: " + errorObject.code);
